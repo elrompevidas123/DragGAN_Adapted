@@ -6,6 +6,7 @@ from functools import partial
 import gradio as gr
 import numpy as np
 import torch
+from IPython.display import clear_output
 from PIL import Image
 
 import dnnlib
@@ -158,7 +159,7 @@ print(valid_checkpoints_dict)
 
 init_pkl = 'stylegan_human_v2_512'
 
-with gr.Blocks() as app:
+with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
 
     # renderer = Renderer()
     global_state = gr.State({
@@ -863,4 +864,5 @@ with gr.Blocks() as app:
 
 gr.close_all()
 app.queue(concurrency_count=5, max_size=20)
+clear_output()
 app.launch(share=args.share)
