@@ -33,10 +33,10 @@ def reverse_point_pairs(points):
 
 
 def clear_state(global_state, target=None):
-    """Clear target history state from global_state
-    If target is not defined, points and mask will be both removed.
-    1. set global_state['points'] as empty dict
-    2. set global_state['mask'] as full-one mask.
+    """Limpiar el estado de historial de destino de global_state
+    Si no se define un objetivo, los puntos y la máscara serán eliminados por completo.
+    1. establecer global_state['points'] como un diccionario vacío
+    2. establecer global_state['mask'] como una máscara completa de unos.
     """
     if target is None:
         target = ['point', 'mask']
@@ -55,12 +55,12 @@ def clear_state(global_state, target=None):
 
 
 def init_images(global_state):
-    """This function is called only ones with Gradio App is started.
-    0. pre-process global_state, unpack value from global_state of need
-    1. Re-init renderer
-    2. run `renderer._render_drag_impl` with `is_drag=False` to generate
-       new image
-    3. Assign images to global state and re-generate mask
+    """Esta función se llama solo una vez cuando se inicia la aplicación Gradio.
+    0. preprocesar global_state, desempaquetar los valores necesarios de global_state
+    1. Reiniciar el renderizador
+    2. ejecutar `renderer._render_drag_impl` con `is_drag=False` para generar
+       una nueva imagen
+    3. Asignar imágenes al estado global y regenerar la máscara
     """
 
     if isinstance(global_state, gr.State):
@@ -109,11 +109,11 @@ def update_image_draw(image, points, mask, show_mask, global_state=None):
 
 
 def preprocess_mask_info(global_state, image):
-    """Function to handle mask information.
-    1. last_mask is None: Do not need to change mask, return mask
-    2. last_mask is not None:
-        2.1 global_state is remove_mask:
-        2.2 global_state is add_mask:
+    """Función para manejar la información de la máscara.
+    1. last_mask es None: No es necesario cambiar la máscara, devolver la máscara actual
+    2. last_mask no es None:
+        2.1 global_state es remove_mask:
+        2.2 global_state es add_mask:
     """
     if isinstance(image, dict):
         last_mask = get_valid_mask(image['mask'])
@@ -306,24 +306,20 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
                         width=768,
                         height=768)  # NOTE: hard image size code here.
     gr.Markdown("""
-        ## Quick Start
+        ## Inicio rápido
 
-        1. Select desired `Pretrained Model` and adjust `Seed` to generate an
-           initial image.
-        2. Click on image to add control points.
-        3. Click `Start` and enjoy it!
+        1. Selecciona el `Pretrained Model` deseado y ajusta la `Seed` para generar una imagen inicial.
+        2. Haz clic en la imagen para agregar puntos de control.
+        3. Haz clic en `Start` y ¡disfrútalo!
 
-        ## Advance Usage
+        ## Uso avanzado
 
-        1. Change `Step Size` to adjust learning rate in drag optimization.
-        2. Select `w` or `w+` to change latent space to optimize:
-        * Optimize on `w` space may cause greater influence to the image.
-        * Optimize on `w+` space may work slower than `w`, but usually achieve
-          better results.
-        * Note that changing the latent space will reset the image, points and
-          mask (this has the same effect as `Reset Image` button).
-        3. Click `Edit Flexible Area` to create a mask and constrain the
-           unmasked region to remain unchanged.
+        1. Cambia el `Step Size` para ajustar la tasa de aprendizaje en la optimización por arrastre.
+        2. Selecciona `w` o `w+` para cambiar el espacio latente a optimizar:
+        * Optimizar en el espacio `w` puede tener una influencia mayor en la imagen.
+        * Optimizar en el espacio `w+` puede ser más lento que `w`, pero generalmente logra mejores resultados.
+        * Ten en cuenta que cambiar el espacio latente restablecerá la imagen, los puntos y la máscara (esto tiene el mismo efecto que el botón `Reset Image`).
+        3. Haz clic en `Edit Flexible Area` para crear una máscara y restringir que la región sin máscara permanezca sin cambios.
         """)
     gr.HTML("""
         <style>
@@ -344,9 +340,9 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
 
     # Network & latents tab listeners
     def on_change_pretrained_dropdown(pretrained_value, global_state):
-        """Function to handle model change.
-        1. Set pretrained value to global_state
-        2. Re-init images and clear all states
+        """Función para manejar el cambio de modelo.
+        1. Establecer el valor de "pretrained" en global_state
+        2. Reiniciar las imágenes y borrar todos los estados
         """
 
         global_state['pretrained_weight'] = pretrained_value
@@ -362,9 +358,9 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
     )
 
     def on_click_reset_image(global_state):
-        """Reset image to the original one and clear all states
-        1. Re-init images
-        2. Clear all states
+        """Restablecer la imagen a la original y borrar todos los estados
+        1. Reiniciar las imágenes
+        2. Borrar todos los estados
         """
 
         init_images(global_state)
@@ -398,10 +394,10 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
     )
 
     def on_click_latent_space(latent_space, global_state):
-        """Function to reset latent space to optimize.
-        NOTE: this function we reset the image and all controls
-        1. Set latent-space to global_state
-        2. Re-init images and clear all state
+        """Función para restablecer el espacio latente a optimizar.
+        NOTA: esta función restablecerá la imagen y todos los controles
+        1. Establecer el espacio latente en global_state
+        2. Reiniciar las imágenes y borrar todos los estados
         """
 
         global_state['params']['latent_space'] = latent_space
@@ -666,9 +662,9 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
     )
 
     def on_click_stop(global_state):
-        """Function to handle stop button is clicked.
-        1. send a stop signal by set global_state["temporal_params"]["stop"] as True
-        2. Disable Stop button
+        """Función para manejar cuando se hace clic en el botón de detener.
+        1. Enviar una señal de detención estableciendo global_state["temporal_params"]["stop"] en True
+        2. Desactivar el botón de detener
         """
         global_state["temporal_params"]["stop"] = True
 
@@ -725,10 +721,10 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
 
     # Image
     def on_click_enable_draw(global_state, image):
-        """Function to start add mask mode.
-        1. Preprocess mask info from last state
-        2. Change editing state to add_mask
-        3. Set curr image with points and mask
+        """Función para iniciar el modo de agregar máscara.
+        1. Preprocesar información de máscara del estado anterior
+        2. Cambiar el estado de edición a add_mask
+        3. Establecer la imagen actual con los puntos y la máscara
         """
         global_state = preprocess_mask_info(global_state, image)
         global_state['editing_state'] = 'add_mask'
@@ -740,10 +736,10 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
                 gr.Image.update(value=image_draw, interactive=True))
 
     def on_click_remove_draw(global_state, image):
-        """Function to start remove mask mode.
-        1. Preprocess mask info from last state
-        2. Change editing state to remove_mask
-        3. Set curr image with points and mask
+        """Función para iniciar el modo de eliminar máscara.
+        1. Preprocesar información de máscara del estado anterior
+        2. Cambiar el estado de edición a remove_mask
+        3. Establecer la imagen actual con los puntos y la máscara
         """
         global_state = preprocess_mask_info(global_state, image)
         global_state['edinting_state'] = 'remove_mask'
@@ -762,10 +758,10 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
                           ])
 
     def on_click_add_point(global_state, image: dict):
-        """Function switch from add mask mode to add points mode.
-        1. Updaste mask buffer if need
-        2. Change global_state['editing_state'] to 'add_points'
-        3. Set current image with mask
+        """Función para cambiar del modo de agregar máscara al modo de agregar puntos.
+        1. Actualizar el búfer de máscara si es necesario
+        2. Cambiar global_state['editing_state'] a 'add_points'
+        3. Establecer la imagen actual con la máscara
         """
 
         global_state = preprocess_mask_info(global_state, image)
@@ -783,7 +779,7 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
                             outputs=[global_state, form_image])
 
     def on_click_image(global_state, evt: gr.SelectData):
-        """This function only support click for point selection
+        """Esta función solo admite la selección de puntos haciendo clic
         """
         xy = evt.index
         if global_state['editing_state'] != 'add_points':
@@ -823,10 +819,10 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
     )
 
     def on_click_clear_points(global_state):
-        """Function to handle clear all control points
-        1. clear global_state['points'] (clear_state)
-        2. re-init network
-        2. re-draw image
+        """Función para manejar la eliminación de todos los puntos de control
+        1. Borrar global_state['points'] (clear_state)
+        2. Reiniciar la red
+        3. Volver a dibujar la imagen
         """
         clear_state(global_state, target='point')
 
@@ -843,7 +839,7 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
                       outputs=[global_state, form_image])
 
     def on_click_show_mask(global_state, show_mask):
-        """Function to control whether show mask on image."""
+        """Función para controlar si mostrar la máscara en la imagen."""
         global_state['show_mask'] = show_mask
 
         image_raw = global_state['images']['image_raw']
