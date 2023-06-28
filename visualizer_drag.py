@@ -23,6 +23,7 @@ from viz import pickle_widget
 from viz import latent_widget
 from viz import drag_widget
 from viz import capture_widget
+from IPython.display import clear_output
 
 #----------------------------------------------------------------------------
 
@@ -400,5 +401,5 @@ def main(
 
 if __name__ == "__main__":
     main()
-
+clear_output()
 #----------------------------------------------------------------------------
