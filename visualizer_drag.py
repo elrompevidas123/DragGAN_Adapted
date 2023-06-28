@@ -391,6 +391,7 @@ def main(
         # Populate recent pickles list with pretrained model URLs.
         for url in pretrained:
             viz.add_recent_pickle(url)
+    clear_output()
 
     # Run.
     while not viz.should_close():
@@ -401,5 +402,4 @@ def main(
 
 if __name__ == "__main__":
     main()
-clear_output()
 #----------------------------------------------------------------------------
