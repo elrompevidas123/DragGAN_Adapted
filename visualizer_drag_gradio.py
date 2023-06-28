@@ -6,7 +6,6 @@ from functools import partial
 import gradio as gr
 import numpy as np
 import torch
-from IPython.display import clear_output
 from PIL import Image
 
 import dnnlib
@@ -860,5 +859,4 @@ with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN 🎩") as app:
 
 gr.close_all()
 app.queue(concurrency_count=5, max_size=20)
-clear_output()
 app.launch(share=args.share)
