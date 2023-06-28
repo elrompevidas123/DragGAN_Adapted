@@ -23,7 +23,6 @@ from viz import pickle_widget
 from viz import latent_widget
 from viz import drag_widget
 from viz import capture_widget
-from IPython.display import clear_output
 
 #----------------------------------------------------------------------------
 
@@ -391,7 +390,6 @@ def main(
         # Populate recent pickles list with pretrained model URLs.
         for url in pretrained:
             viz.add_recent_pickle(url)
-    clear_output()
 
     # Run.
     while not viz.should_close():
