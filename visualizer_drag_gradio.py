@@ -159,7 +159,7 @@ print(valid_checkpoints_dict)
 
 init_pkl = 'stylegan_human_v2_512'
 
-with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN") as app:
+with gr.Blocks(theme=gr.themes.Soft(), title="DragGAN 🎩") as app:
 
     # renderer = Renderer()
     global_state = gr.State({
